@@ -5,6 +5,7 @@ ChildRouter = require 'react-child-router'
 {Link} = ChildRouter
 Markdown = require '../components/markdown'
 ClassifyPage = require './classify'
+Dashboard = require './dashboard'
 LoadingIndicator = require '../components/loading-indicator'
 
 EXAMPLE_PROJECT =
@@ -91,7 +92,7 @@ module.exports = React.createClass
           </Markdown>
 
           <div hash="#/projects/:owner/:name/status" className="project-text-content content-container">
-            <p>Status dashboard for this project</p>
+            <Dashboard project={@state.project} />
           </div>
 
           <div hash="#/projects/:owner/:name/team" className="project-text-content content-container">
