@@ -3,7 +3,7 @@
 React = require 'react'
 FillChart = require '../components/fill-chart'
 
-FAKE_DATA = [5,2,6,7,3,1,7,8,4,5,5,4]
+FAKE_DATA = [5,2,6,7,3,1,7,8,4,5,5,4,3,5,7,8,3,2,6,8,9]
 
 module?.exports = React.createClass
   displayName: 'Dashboard'
@@ -12,8 +12,7 @@ module?.exports = React.createClass
     console.log "props", @props.project.name
 
   render: ->
-    console.log "staterender", FAKE_DATA
     <div className="dashboard">
       <h1>Project Dashboard: {@props.project.name}</h1>
-      <FillChart data={FAKE_DATA}/>
+      <FillChart data={FAKE_DATA} />
     </div>

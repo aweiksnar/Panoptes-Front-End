@@ -4,26 +4,35 @@ React = require 'react'
 
 module?.exports = React.createClass
   displayName: 'FillChartItem'
-  rows: 4
+  rows: 7
 
   fillColor: ->
-    "rgba(0, #{@props.fill}, 0, 1)"
+    "rgba(0, 0, 0, #{@fillOpacity()})"
+
+  fillOpacity: ->
+    if @props.fill is 0 then .1 else @props.fill 
 
   diameter: ->
     @props.r * 2
-  
+
+  xSpacing: ->
+    @colOf(@rows) * @props.gap
+
   xPosition: ->
-    @diameter() * @colOf(@rows) + @props.r
+    @diameter() * @colOf(@rows) + @props.r + @xSpacing()
+
+  ySpacing: ->
+    (@rowNum(@rows) - 1) * @props.gap
 
   yPosition: ->
-    @diameter() * @rowOf(@rows)
+    @diameter() * (@rowOf(@rows) - 1) + @ySpacing() + @props.r
 
   endOfRow: (n) ->
     @props.i + 1 >= n
 
   rowNum: (n) ->
     Math.floor(@props.i / n) + 1
-    
+
   colOf: (n) ->
     @props.i % n
 
