@@ -14,5 +14,5 @@ module?.exports = React.createClass
   render: ->
     <div className="dashboard">
       <h1>Project Dashboard: {@props.project.name}</h1>
-      <FillChart data={FAKE_DATA} />
+      <FillChart data={FAKE_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>

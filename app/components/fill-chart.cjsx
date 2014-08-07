@@ -15,6 +15,15 @@ module?.exports = React.createClass
   scaledDataItem: (item)->
     (item - @dataMin()) / (@dataMax() - @dataMin())
 
+  rowWidth: ->
+    (@props.rowSize * @props.itemDiameter) + ((@props.rowSize - 1) * @props.gap)
+
+  numberOfCols: ->
+    Math.floor (@props.data.length / @props.rowSize)
+
+  colHeight: ->
+    (@numberOfCols() * @props.itemDiameter) + (@props.gap * (@numberOfCols() - 1))
+
   render: ->
     fillChartItems = for item, i in @props.data
       new FillChartItem
@@ -22,11 +31,11 @@ module?.exports = React.createClass
         r: 20,
         fill: @scaledDataItem(item)
         gap: 4
-        rowSize: 7
+        rowSize: @props.rowSize
 
     <div>
      <h2>Fill chart</h2>
-     <svg width={fillChartItems.length * 40}>
+     <svg width={@rowWidth()} height={@colHeight()}>
        {fillChartItems}
      </svg>
     </div>
