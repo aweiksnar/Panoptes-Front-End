@@ -2,6 +2,7 @@
 
 React = require 'react'
 FillChartItem = require './fill-chart-item'
+FillChartDataBox = require './fill-chart-data-box'
 
 module?.exports = React.createClass
   displayName: 'FillChart'
@@ -18,25 +19,32 @@ module?.exports = React.createClass
   rowWidth: ->
     (@props.rowSize * @props.itemDiameter) + ((@props.rowSize - 1) * @props.gap)
 
-  numberOfCols: ->
-    Math.floor (@props.data.length / @props.rowSize)
+  numberOfRows: ->
+    Math.ceil (@props.data.length / @props.rowSize)
 
   colHeight: ->
-    (@numberOfCols() * @props.itemDiameter) + (@props.gap * (@numberOfCols() - 1))
+    (@numberOfRows() * @props.itemDiameter) + (@props.gap * (@numberOfRows() - 1))
+
+  radius: -> @props.itemDiameter / 2
 
   render: ->
     fillChartItems = for item, i in @props.data
       new FillChartItem
         i: i,
-        r: 20,
+        r: @radius(),
         fill: @scaledDataItem(item)
         gap: 4
         rowSize: @props.rowSize
+        color:
+          r: 0
+          g: 0
+          b: 0
 
     <div>
      <h2>Fill chart</h2>
      <svg width={@rowWidth()} height={@colHeight()}>
        {fillChartItems}
      </svg>
+     <FillChartDataBox null/>
     </div>
 

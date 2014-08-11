@@ -7,10 +7,10 @@ module?.exports = React.createClass
   rows: 7
 
   fillColor: ->
-    "rgba(0, 0, 0, #{@fillOpacity()})"
+    "rgba(#{@props.color.r}, #{@props.color.g}, #{@props.color.b}, #{@fillOpacity()})"
 
   fillOpacity: ->
-    if @props.fill is 0 then .1 else @props.fill 
+    if @props.fill is 0 then .05 else @props.fill
 
   diameter: ->
     @props.r * 2
