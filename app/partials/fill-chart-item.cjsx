@@ -10,7 +10,7 @@ module?.exports = React.createClass
     "rgba(#{@props.color.r}, #{@props.color.g}, #{@props.color.b}, #{@fillOpacity()})"
 
   fillOpacity: ->
-    if @props.fill is 0 then .05 else @props.fill
+    @props.fill || 0.05
 
   diameter: ->
     @props.r * 2
@@ -40,4 +40,5 @@ module?.exports = React.createClass
     if @endOfRow(n) then @rowNum(n) else 1
 
   render: ->
-    <circle r={@props.r} cx={@xPosition()} cy={@yPosition()} fill={@fillColor()}></circle>
+    <circle r={@props.r} cx={@xPosition()} cy={@yPosition()} fill={@fillColor()} onMouseOver={@props.onHover()}></circle>
+

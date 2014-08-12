@@ -7,6 +7,13 @@ FillChartDataBox = require './fill-chart-data-box'
 module?.exports = React.createClass
   displayName: 'FillChart'
 
+  componentWillMount: ->
+    @setState activeItem: 0
+    console.log "Fill chart will mount"
+
+  componentDidMount: ->
+    console.log "state", @state
+
   dataMax: ->
     Math.max @props.data...
 
@@ -27,6 +34,14 @@ module?.exports = React.createClass
 
   radius: -> @props.itemDiameter / 2
 
+  itemIndex: (child) ->
+    i = 0
+    i++ while child = child.previousSibling
+    i
+
+  onFillChartItemHover: (e) ->
+    @setState activeItem: @itemIndex(e.target)
+
   render: ->
     fillChartItems = for item, i in @props.data
       new FillChartItem
@@ -34,17 +49,20 @@ module?.exports = React.createClass
         r: @radius(),
         fill: @scaledDataItem(item)
         gap: 4
+        activeItem: @state.activeItem
         rowSize: @props.rowSize
         color:
           r: 0
           g: 0
           b: 0
+        onHover: => @onFillChartItemHover
+
 
     <div>
      <h2>Fill chart</h2>
      <svg width={@rowWidth()} height={@colHeight()}>
        {fillChartItems}
      </svg>
-     <FillChartDataBox null/>
+     <FillChartDataBox activeItem={@state.activeItem}/>
     </div>
 
