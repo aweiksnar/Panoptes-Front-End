@@ -12,6 +12,10 @@ module?.exports = React.createClass
     <div className="fill-chart-data-box">
       <h2>Fill Chart Data Box</h2>
       <ul>
-        <li>key: {@props.activeItem}</li>
+        <li>
+            Classification Count: {@props.activeItem.classification_count}
+            <br />
+            Date: {@props.activeItem.date}
+        </li>
       </ul>
     </div>

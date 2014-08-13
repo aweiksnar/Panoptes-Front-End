@@ -49,5 +49,5 @@ module?.exports = React.createClass
   render: ->
     <div className="dashboard">
       <h1>Project Dashboard: {@props.project.name}</h1>
-      <FillChart data={PROJECT_CLASSIFICATION_COUNTS} rowSize={7} gap={4} itemDiameter={40}/>
+      <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>

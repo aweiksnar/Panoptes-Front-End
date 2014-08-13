@@ -15,19 +15,22 @@ module?.exports = React.createClass
     console.log "state", @state
 
   dataMax: ->
-    Math.max @props.data...
+    Math.max @classifyCounts()...
 
   dataMin: ->
-    Math.min @props.data...
+    Math.min @classifyCounts()...
 
   scaledDataItem: (item)->
     (item - @dataMin()) / (@dataMax() - @dataMin())
+
+  classifyCounts: ->
+    @props.data.map (d) -> d.classification_count
 
   rowWidth: ->
     (@props.rowSize * @props.itemDiameter) + ((@props.rowSize - 1) * @props.gap)
 
   numberOfRows: ->
-    Math.ceil (@props.data.length / @props.rowSize)
+    Math.ceil (@classifyCounts().length / @props.rowSize)
 
   colHeight: ->
     (@numberOfRows() * @props.itemDiameter) + (@props.gap * (@numberOfRows() - 1))
@@ -39,11 +42,15 @@ module?.exports = React.createClass
     i++ while child = child.previousSibling
     i
 
+  activeItemData: ->
+    @props.data[@state.activeItem]
+
   onFillChartItemHover: (e) ->
     @setState activeItem: @itemIndex(e.target)
+    console.log @activeItemData()
 
   render: ->
-    fillChartItems = for item, i in @props.data
+    fillChartItems = for item, i in @classifyCounts()
       new FillChartItem
         i: i,
         r: @radius(),
@@ -63,6 +70,6 @@ module?.exports = React.createClass
      <svg width={@rowWidth()} height={@colHeight()}>
        {fillChartItems}
      </svg>
-     <FillChartDataBox activeItem={@state.activeItem}/>
+     <FillChartDataBox activeItem={@activeItemData()}/>
     </div>
 
