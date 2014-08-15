@@ -1,0 +1,13 @@
+  /Users/aweiksnar/zooniverse/forks/Panoptes-Front-End/app/components:
+  total used in directory 72 available 52503607
+  drwxr-xr-x  12 aweiksnar  staff   408 Aug 15 15:09 .
+  drwxr-xr-x   9 aweiksnar  staff   306 Aug 15 13:06 ..
+  -rw-r--r--   1 aweiksnar  staff  1657 Aug 15 15:09 bar-graph.cjsx
+  -rw-r--r--   1 aweiksnar  staff   290 Aug  4 08:30 columns.coffee
+  -rw-r--r--   1 aweiksnar  staff     0 Aug 15 15:08 data-box.cjsx
+  -rw-r--r--   1 aweiksnar  staff   280 Aug  6 12:28 dialog.cjsx
+  -rw-r--r--   1 aweiksnar  staff   311 Aug  4 08:30 in-place-form.cjsx
+  -rw-r--r--   1 aweiksnar  staff   266 Aug 15 12:58 loading-indicator.cjsx
+  -rw-r--r--   1 aweiksnar  staff   414 Aug  4 08:30 markdown.coffee
+  -rw-r--r--   1 aweiksnar  staff   528 Aug 15 12:58 svg-image.cjsx
+  -rw-r--r--   1 aweiksnar  staff  1696 Aug  4 08:30 tabbed-content.coffee

@@ -41,13 +41,13 @@ PROJECT_CLASSIFICATION_COUNTS = PROJECT_CLASSIFICATION_DATA.map (p) -> p.classif
 
 BAR_GRAPH =
   data: [
-    {label: "a", value: 3}
-    {label: "b", value: 5}
-    {label: "c", value: 8}
-    {label: "d", value: 6}
-    {label: "e", value: 9}
-    {label: "f", value: 13}
-    {label: "g", value: 4}
+    {label: "first", value: 3}
+    {label: "second", value: 5}
+    {label: "third", value: 8}
+    {label: "fourth", value: 6}
+    {label: "fifth", value: 9}
+    {label: "sixth", value: 13}
+    {label: "seventh", value: 4}
   ]
   labels:
     x: "x-axis-label"

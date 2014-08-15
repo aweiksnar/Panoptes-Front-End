@@ -9,6 +9,7 @@ module?.exports = React.createClass
     <div>
       <h2>{@props.title}</h2>
       <ul>
+        <li>Label: {@props.activeItem.label}</li>
         <li>Value: {@props.activeItem.value}</li>
       </ul>
     </div>
