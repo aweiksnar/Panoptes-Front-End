@@ -2,8 +2,7 @@
 
 React = require 'react'
 FillChart = require '../partials/fill-chart'
-
-#FAKE_DATA = [5,2,6,7,3,1,7,8,4,5,5,4,3,5,7,8,3,2,6,8,9,3,4,5,2,5,2,10,3,7]
+BarGraph = require '../components/bar-graph'
 
 PROJECT_CLASSIFICATION_DATA = [
   {classification_count: 5, date: "08/13/2014"}
@@ -40,6 +39,21 @@ PROJECT_CLASSIFICATION_DATA = [
 
 PROJECT_CLASSIFICATION_COUNTS = PROJECT_CLASSIFICATION_DATA.map (p) -> p.classification_count
 
+BAR_GRAPH =
+  data: [
+    {label: "a", value: 3}
+    {label: "b", value: 5}
+    {label: "c", value: 8}
+    {label: "d", value: 6}
+    {label: "e", value: 9}
+    {label: "f", value: 13}
+    {label: "g", value: 4}
+  ]
+  labels:
+    x: "x-axis-label"
+    y: "y-axis-label"
+
+
 module?.exports = React.createClass
   displayName: 'Dashboard'
 
@@ -49,5 +63,6 @@ module?.exports = React.createClass
   render: ->
     <div className="dashboard">
       <h1>Project Dashboard: {@props.project.name}</h1>
+      <BarGraph data={BAR_GRAPH.data} axisLabels={BAR_GRAPH.labels} height={300} width={500} gap={10} color="black"/>
       <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>
