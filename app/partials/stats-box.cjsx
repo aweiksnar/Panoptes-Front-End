@@ -1,7 +1,5 @@
 # @cjsx React.DOM
 
-# expects an object (make this a props validator thing later)
-
 React = require 'react'
 
 StatsItem = require './stats-item'

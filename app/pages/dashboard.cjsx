@@ -60,6 +60,13 @@ PROJECT_STATS_DATA =
   total_subjects: "92,301"
   percent_complete: "27%"
 
+USER_STATS_DATA =
+  total_classifications: "1,231"
+  average_daily_classifications: "15"
+  classifications_today: "5"
+  total_talk_comments: "71"
+  talk_comments_today: "3"
+
 
 module?.exports = React.createClass
   displayName: 'Dashboard'
@@ -72,6 +79,7 @@ module?.exports = React.createClass
       <h1>Project Dashboard: {@props.project.name}</h1>
 
       <StatsBox data={PROJECT_STATS_DATA} title={"#{@props.project.name} Statistics"}/>
+      <StatsBox data={USER_STATS_DATA} title={"User Statistics"} />
       <BarGraph data={BAR_GRAPH.data} axisLabels={BAR_GRAPH.labels} height={300} width={500} gap={10} color="black"/>
       <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>
