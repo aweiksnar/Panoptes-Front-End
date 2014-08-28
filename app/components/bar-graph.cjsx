@@ -27,6 +27,12 @@ module?.exports = React.createClass
   itemWidth: ->
     @props.width / @dataLength()
 
+  itemPercentWidth: ->
+    (1 / @dataLength()) * 100
+
+  xPercentPosition: (i) ->
+    @itemPercentWidth() * i
+
   xPosition: (i) ->
     @itemWidth() * i + (@props.gap * (i + 1))
 
@@ -60,15 +66,15 @@ module?.exports = React.createClass
     normalizedValues = @normalizedValues()
 
     bars = for item, i in @props.data
-      <rect width={@itemWidth()} height={percentages[i] + "%"} x={@xPosition(i)} fill={@props.color} opacity={normalizedValues[i]} onMouseOver={@onBarMouseOver} />
+      <rect width={@itemPercentWidth() + "%"} height={percentages[i] + "%"} x={@xPercentPosition(i) + "%"} fill={@props.color} opacity={normalizedValues[i]} onMouseOver={@onBarMouseOver} />
 
-    <div>
+    <div className="bar-graph">
       <h2>Bar Graph</h2>
-      <svg width={@graphWidth()} height={@props.height}>
+      <svg width="100%" height={@props.height}>
         <g transform="scale(1,-1), translate(0, -#{@props.height})">
           <line x1={0} y1={0} x2={0} y2={@props.height} stroke="black" stroke-width="1px" />
           <g>{bars}</g>
-          <line x1={0} y1={0} x2={@graphWidth()} y2={0} stroke="black" stroke-width="1px"/>
+          <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
         </g>
       </svg>
       <DataBox title="Bar Graph Data Box" activeItem={@activeItemData()} />
