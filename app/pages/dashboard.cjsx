@@ -3,6 +3,7 @@
 React = require 'react'
 FillChart = require '../partials/fill-chart'
 BarGraph = require '../components/bar-graph'
+StatsBox = require '../partials/stats-box'
 
 PROJECT_CLASSIFICATION_DATA = [
   {classification_count: 5, date: "08/13/2014"}
@@ -53,6 +54,12 @@ BAR_GRAPH =
     x: "x-axis-label"
     y: "y-axis-label"
 
+PROJECT_STATS_DATA =
+  total_classifications: "26,127"
+  total_users: "3,145"
+  total_subjects: "92,301"
+  percent_complete: "27%"
+
 
 module?.exports = React.createClass
   displayName: 'Dashboard'
@@ -63,6 +70,8 @@ module?.exports = React.createClass
   render: ->
     <div className="dashboard">
       <h1>Project Dashboard: {@props.project.name}</h1>
+
+      <StatsBox data={PROJECT_STATS_DATA} title={"#{@props.project.name} Statistics"}/>
       <BarGraph data={BAR_GRAPH.data} axisLabels={BAR_GRAPH.labels} height={300} width={500} gap={10} color="black"/>
       <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>

@@ -9,9 +9,6 @@ module?.exports = React.createClass
   getInitialState: ->
     activeItem: 0
 
-  componentDidMount: ->
-    console.log "bargraph", @props
-
   dataLength: ->
     @props.data.length
 

@@ -9,10 +9,6 @@ module?.exports = React.createClass
 
   componentWillMount: ->
     @setState activeItem: 0
-    console.log "Fill chart will mount"
-
-  componentDidMount: ->
-    console.log "state", @state
 
   dataMax: ->
     Math.max @classifyCounts()...
@@ -20,7 +16,7 @@ module?.exports = React.createClass
   dataMin: ->
     Math.min @classifyCounts()...
 
-  scaledDataItem: (item)->
+  scaledDataItem: (item) ->
     (item - @dataMin()) / (@dataMax() - @dataMin())
 
   classifyCounts: ->
