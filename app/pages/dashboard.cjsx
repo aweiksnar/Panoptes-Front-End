@@ -51,8 +51,8 @@ BAR_GRAPH =
     {label: "seventh", value: 4}
   ]
   labels:
-    x: "x-axis-label"
-    y: "y-axis-label"
+    x: "Time"
+    y: "Y-Axis"
 
 PROJECT_STATS_DATA =
   total_classifications: "26,127"
@@ -80,6 +80,7 @@ module?.exports = React.createClass
 
       <StatsBox data={PROJECT_STATS_DATA} title={"#{@props.project.name} Statistics"}/>
       <StatsBox data={USER_STATS_DATA} title={"User Statistics"} />
-      <BarGraph data={BAR_GRAPH.data} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
+      <h2>Bar Graph</h2>
+      <BarGraph data={BAR_GRAPH.data} labels={BAR_GRAPH.labels} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
       <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>

@@ -60,7 +60,7 @@ module?.exports = React.createClass
   render: ->
     fillChartItems = @classifyCounts().map(@fillChartItem)
 
-    <div>
+    <div className='fill-chart'>
      <h2>Fill chart</h2>
      <svg width={@rowWidth()} height={@colHeight()}>
        {fillChartItems}

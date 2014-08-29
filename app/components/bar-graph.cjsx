@@ -62,7 +62,8 @@ module?.exports = React.createClass
     bars = @normalizedValues().map(@bar)
 
     <div className="bar-graph">
-      <h2>Bar Graph</h2>
+      <p className="y-axis-label">{@props.labels.y}</p>
+
       <svg width="100%" height={@props.height}>
         <g transform="scale(1,-1), translate(0, -#{@props.height})">
           <line x1={0} y1={0} x2={0} y2={@props.height} stroke="black" stroke-width="1px" />
@@ -70,5 +71,7 @@ module?.exports = React.createClass
           <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
         </g>
       </svg>
+
+      <p className="x-axis-label">{@props.labels.x}</p>
       <DataBox title="Bar Graph Data Box" activeItem={@activeItemData()} />
     </div>
