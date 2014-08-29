@@ -10,9 +10,12 @@ module?.exports = React.createClass
   propTypes:
     data: React.PropTypes.object
 
+
+  statsItem: (obj) ->
+    <StatsItem header={obj.v} label={obj.k} />
+
   render: ->
-    statsItems = @dataKeyValues().map (obj) ->
-      <StatsItem header={obj.v} label={obj.k} />
+    statsItems = @dataKeyValues().map(@statsItem)
 
     <div className="stats-box">
       <h2>{@props.title}</h2>

@@ -45,21 +45,20 @@ module?.exports = React.createClass
     @setState activeItem: @itemIndex(e.target)
     console.log @activeItemData()
 
-  render: ->
-    fillChartItems = for item, i in @classifyCounts()
-      new FillChartItem
-        i: i,
-        r: @radius(),
-        fill: @scaledDataItem(item)
-        gap: 4
-        activeItem: @state.activeItem
-        rowSize: @props.rowSize
-        color:
-          r: 0
-          g: 0
-          b: 0
-        onHover: => @onFillChartItemHover
+  fillChartItem: (item, i) ->
+    <FillChartItem
+      i= {i}
+      r= {@radius()}
+      fill= {@scaledDataItem(item)}
+      gap= 4
+      activeItem= {@state.activeItem}
+      rowSize= {@props.rowSize}
+      color= {r: 0, g: 0, b: 0}
+      onHover= {=> @onFillChartItemHover}
+    />
 
+  render: ->
+    fillChartItems = @classifyCounts().map(@fillChartItem)
 
     <div>
      <h2>Fill chart</h2>
