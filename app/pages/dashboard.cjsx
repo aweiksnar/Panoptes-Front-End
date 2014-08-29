@@ -3,6 +3,7 @@
 React = require 'react'
 FillChart = require '../partials/fill-chart'
 BarGraph = require '../components/bar-graph'
+LineGraph = require '../components/line-graph'
 StatsBox = require '../partials/stats-box'
 
 PROJECT_CLASSIFICATION_DATA = [
@@ -80,7 +81,12 @@ module?.exports = React.createClass
 
       <StatsBox data={PROJECT_STATS_DATA} title={"#{@props.project.name} Statistics"}/>
       <StatsBox data={USER_STATS_DATA} title={"User Statistics"} />
+
+      <h2>Line Graph</h2>
+      <LineGraph data={PROJECT_CLASSIFICATION_DATA} pointRadius={10} gap={3} height={300}/>
+
       <h2>Bar Graph</h2>
       <BarGraph data={BAR_GRAPH.data} labels={BAR_GRAPH.labels} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
+
       <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>
