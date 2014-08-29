@@ -10,7 +10,6 @@ module?.exports = React.createClass
   propTypes:
     data: React.PropTypes.object
 
-
   statsItem: (obj) ->
     <StatsItem header={obj.v} label={obj.k} />
 

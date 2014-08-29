@@ -24,31 +24,18 @@ module?.exports = React.createClass
   dataMin: ->
     Math.min @dataValues()...
 
-  itemWidth: ->
-    @props.width / @dataLength()
-
   itemPercentWidth: ->
-    (1 / @dataLength()) * 100
+    ((1 / @dataLength()) * (100 - @props.gap)) - @props.gap
 
   xPercentPosition: (i) ->
-    @itemPercentWidth() * i
-
-  xPosition: (i) ->
-    @itemWidth() * i + (@props.gap * (i + 1))
-
-  graphWidth: ->
-    @itemWidth() * @dataLength() + (@props.gap * @dataLength()) + @props.gap
+    (@itemPercentWidth() * i) + (@props.gap * (i + 1))
 
   normalizedValues: ->
     max = @dataMax()
     min = @dataMin()
     length = @dataLength()
 
-    @props.data.map (d) ->
-      d.value / (max - min)
-
-  percentageValues: ->
-    @normalizedValues().map (v) -> v * 100
+    @props.data.map (d) -> d.value / (max - min)
 
   activeItemData: ->
     @props.data[@state.activeItem]
@@ -61,12 +48,18 @@ module?.exports = React.createClass
   onBarMouseOver: (e) ->
     @setState activeItem: @itemIndex(e.target)
 
-  render: ->
-    percentages = @percentageValues()
-    normalizedValues = @normalizedValues()
+  bar: (v, i) ->
+    <rect
+      width = {@itemPercentWidth() + "%"}
+      height = {(v * 100) + "%"}
+      x = {@xPercentPosition(i) + "%"}
+      fill = {@props.color}
+      opacity = {v}
+      onMouseOver = {@onBarMouseOver}
+    />
 
-    bars = for item, i in @props.data
-      <rect width={@itemPercentWidth() + "%"} height={percentages[i] + "%"} x={@xPercentPosition(i) + "%"} fill={@props.color} opacity={normalizedValues[i]} onMouseOver={@onBarMouseOver} />
+  render: ->
+    bars = @normalizedValues().map(@bar)
 
     <div className="bar-graph">
       <h2>Bar Graph</h2>

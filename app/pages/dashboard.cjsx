@@ -80,6 +80,6 @@ module?.exports = React.createClass
 
       <StatsBox data={PROJECT_STATS_DATA} title={"#{@props.project.name} Statistics"}/>
       <StatsBox data={USER_STATS_DATA} title={"User Statistics"} />
-      <BarGraph data={BAR_GRAPH.data} axisLabels={BAR_GRAPH.labels} height={300} width={500} gap={10} color="black"/>
+      <BarGraph data={BAR_GRAPH.data} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
       <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
     </div>
