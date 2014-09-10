@@ -9,9 +9,7 @@ module?.exports = React.createClass
   displayName: 'LineGraph'
 
   componentDidMount: ->
-    console.log "line graph", @props.data
-    console.log "notmaleized", @normalizedValues()
-    console.log "coords", @coordPairs()
+    console.log "line graph props", @props.data
 
   dataValues: ->
     @props.data.map (d) -> d.classification_count
@@ -28,26 +26,38 @@ module?.exports = React.createClass
   xPercentPosition: (i) ->
     (@itemPercentWidth() * i) + (@props.gap * (i + 1))
 
+  yPercentPosition: (val) ->
+    # make sure all y values display as tall as the circle radius
+    # but not taller than the top of the graph
+    (val - (@diaP() * val)) + @radP()
+
   normalizedValues: ->
     max = @dataMax()
     min = @dataMin()
-    length = @props.data.length
-
+ 
     @dataValues().map (d) -> d / (max - min)
 
   coordNotUndefined: (c) ->
-    c.x? and c.y?
+    c.x and c.y
 
   coords: ->
+    # [{x, y}, ...] as percent values
     normalizedValues = @normalizedValues()
     normalizedValues
-      .map (n, i) => {x: @xPercentPosition(i), y: normalizedValues[i + 1]}
+      .map (n, i) => {x: @xPercentPosition(i), y: @yPercentPosition(normalizedValues[i + 1])}
       .filter(@coordNotUndefined)
 
   coordPairNotUndefined: (c) ->
-    c.coord1?.x? and c.coord2?.y? and c.coord1?.x? and c.coord2?.y?
+    c.coord1?.x and c.coord2?.y and c.coord1?.x and c.coord2?.y
+
+  radP: -> # percent
+    (@props.pointRadius / @props.height) || 0
+
+  diaP: -> # percent
+    @radP() * 2
 
   coordPairs: ->
+    # [{coord1: {x, y}, coord2: {x, y}}, ...]
     coords = @coords()
     coords
       .map (c, i) -> {coord1: c, coord2: coords[i + 1]}
