@@ -13,7 +13,7 @@ module?.exports = React.createClass
     console.log "@coords()", @coords()
 
   getInitialState: ->
-    circleHover: {x: 0, y: 0, display: "block"}
+    circleHover: {x: 0, y: 0, display: "none"}
 
   dataValues: ->
     @props.data.map (d) -> d.classification_count
