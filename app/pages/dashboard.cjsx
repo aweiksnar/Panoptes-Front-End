@@ -83,7 +83,7 @@ module?.exports = React.createClass
       <StatsBox data={USER_STATS_DATA} title={"User Statistics"} />
 
       <h2>Line Graph</h2>
-      <LineGraph data={PROJECT_CLASSIFICATION_DATA} pointRadius={10} gap={3} height={300}/>
+      <LineGraph data={PROJECT_CLASSIFICATION_DATA} pointRadius={10} gap={3} height={300} yLines={5}/>
 
       <h2>Bar Graph</h2>
       <BarGraph data={BAR_GRAPH.data} labels={BAR_GRAPH.labels} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
