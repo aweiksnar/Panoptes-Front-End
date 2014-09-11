@@ -40,10 +40,8 @@ module?.exports = React.createClass
   activeItemData: ->
     @props.data[@state.activeItem]
 
-  itemIndex: (child) ->
-    i = 0
-    i++ while child = child.previousSibling
-    i
+  itemIndex: (elem) ->
+    (elem while elem = elem.previousSibling).length
 
   onBarMouseOver: (e) ->
     @setState activeItem: @itemIndex(e.target)

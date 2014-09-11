@@ -2,8 +2,10 @@
 
 React = require 'react'
 HoverBox = require './hover-box'
+
 # TODO: move all these max/min/normalizer/width/position functions
 # shared with bar-graph to some type of graph-helpers mixin
+# make ticks / labels / lines their own components
 
 module?.exports = React.createClass
   displayName: 'LineGraph'
