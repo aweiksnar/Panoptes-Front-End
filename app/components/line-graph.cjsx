@@ -25,9 +25,7 @@ module?.exports = React.createClass
     Math.min @dataValues()...
 
   indexOf: (elem) ->
-    i = 0
-    i++ while elem = elem.previousSibling
-    i
+    (elem while elem = elem.previousSibling).length
 
   itemPercentWidth: ->
     ((1 / @props.data.length) * (100 - @props.gap)) - @props.gap
@@ -84,7 +82,8 @@ module?.exports = React.createClass
 
   onCircleHover: (e) ->
    {classification_count} = @props.data[@indexOf(e.target)]
-   @setState {circleHover: {x: e.clientX, y: e.clientY, content: "#{classification_count} Classifications"}}
+   offset = 5
+   @setState {circleHover: {x: e.clientX + offset, y: e.clientY + offset, content: "#{classification_count} Classifications"}}
 
   onCircleMouseout: (e) ->
     @setState {circleHover: {display: "none"}}
@@ -94,7 +93,7 @@ module?.exports = React.createClass
       cx={d.x + "%"}
       cy={(d.y * 100) + "%"}
       r={@props.pointRadius}
-      fill="red"
+      fill="darkgrey"
       onMouseOver={@onCircleHover}
       onMouseOut={@onCircleMouseout}
     />
@@ -103,7 +102,7 @@ module?.exports = React.createClass
     lines = @coordPairs().map(@line)
     circles = @coords().map(@circle)
 
-    <div>
+    <div className='line-graph'>
       <svg width="100%" height={@props.height}>
         <g transform="scale(1,-1), translate(0, -#{@props.height})">
           <line x1={0} y1={0} x2={0} y2={@props.height} stroke="black" stroke-width="1px"/>
