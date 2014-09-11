@@ -1,7 +1,7 @@
 # @cjsx React.DOM
 
 React = require 'react'
-
+HoverBox = require './hover-box'
 # TODO: move all these max/min/normalizer/width/position functions
 # shared with bar-graph to some type of graph-helpers mixin
 
@@ -10,6 +10,10 @@ module?.exports = React.createClass
 
   componentDidMount: ->
     console.log "line graph props", @props.data
+    console.log "@coords()", @coords()
+
+  getInitialState: ->
+    circleHover: {x: 0, y: 0, display: "block"}
 
   dataValues: ->
     @props.data.map (d) -> d.classification_count
@@ -19,6 +23,11 @@ module?.exports = React.createClass
 
   dataMin: ->
     Math.min @dataValues()...
+
+  indexOf: (elem) ->
+    i = 0
+    i++ while elem = elem.previousSibling
+    i
 
   itemPercentWidth: ->
     ((1 / @props.data.length) * (100 - @props.gap)) - @props.gap
@@ -44,7 +53,7 @@ module?.exports = React.createClass
     # [{x, y}, ...] as percent values
     normalizedValues = @normalizedValues()
     normalizedValues
-      .map (n, i) => {x: @xPercentPosition(i), y: @yPercentPosition(normalizedValues[i + 1])}
+      .map (n, i) => {x: @xPercentPosition(i), y: @yPercentPosition(normalizedValues[i])}
       .filter(@coordNotUndefined)
 
   coordPairNotUndefined: (c) ->
@@ -73,12 +82,21 @@ module?.exports = React.createClass
       stroke-width="1px"
     />
 
+  onCircleHover: (e) ->
+   {classification_count} = @props.data[@indexOf(e.target)]
+   @setState {circleHover: {x: e.clientX, y: e.clientY, content: "#{classification_count} Classifications"}}
+
+  onCircleMouseout: (e) ->
+    @setState {circleHover: {display: "none"}}
+
   circle: (d) ->
     <circle
       cx={d.x + "%"}
       cy={(d.y * 100) + "%"}
       r={@props.pointRadius}
       fill="red"
+      onMouseOver={@onCircleHover}
+      onMouseOut={@onCircleMouseout}
     />
 
   render: ->
@@ -94,4 +112,5 @@ module?.exports = React.createClass
           <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
         </g>
       </svg>
+      <HoverBox display={@state.circleHover.display} top={@state.circleHover.y} left={@state.circleHover.x} content={@state.circleHover.content}/>
     </div>
