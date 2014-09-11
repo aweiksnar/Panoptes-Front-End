@@ -108,16 +108,29 @@ module?.exports = React.createClass
       style={zIndex: -1}
     />
 
+  xAxisTick: (xVal) ->
+    <line
+      x1={xVal + "%"}
+      x2={xVal + "%"}
+      y1={0}
+      y2={10}
+      stroke="lightgrey"
+      style={zIndex: -1}
+    />
+
   render: ->
+    coords = @coords()
     lines = @coordPairs().map(@line)
-    circles = @coords().map(@circle)
+    circles = coords.map(@circle)
     yAxisLines = [1..@props.yLines].map(@yAxisLine)
+    xAxisTicks = coords.map((c) -> c.x).map(@xAxisTick)
 
     <div className='line-graph'>
       <svg width="100%" height={@props.height}>
         <g transform="scale(1,-1), translate(0, -#{@props.height})">
           <line x1={0} y1={0} x2={0} y2={@props.height} stroke="black" stroke-width="1px"/>
           <g>{yAxisLines}</g>
+          <g>{xAxisTicks}</g>
           <g>{lines}</g>
           <g>{circles}</g>
           <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
@@ -125,3 +138,4 @@ module?.exports = React.createClass
       </svg>
       <HoverBox display={@state.circleHover.display} top={@state.circleHover.y} left={@state.circleHover.x} content={@state.circleHover.content}/>
     </div>
+
