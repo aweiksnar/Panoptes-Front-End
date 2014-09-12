@@ -7,18 +7,26 @@ HoverBox = require './hover-box'
 # shared with bar-graph to some type of graph-helpers mixin
 # make ticks / labels / lines their own components
 
+# there should be a fn that does something like
+# @[prop] = -> data.map (d) -> d.prop
+# seems like a common pattern
+
 module?.exports = React.createClass
   displayName: 'LineGraph'
 
   componentDidMount: ->
-    console.log "line graph props", @props.data
-    console.log "@coords()", @coords()
+    console.log "line graph mounted"
 
   getInitialState: ->
     circleHover: {x: 0, y: 0, display: "none"}
 
-  dataValues: ->
+  dataValues: ->                #TODO: make these data things generic
     @props.data.map (d) -> d.classification_count
+
+  xAxisLabels: ->
+    #first middle and last date
+    dataLength = @props.data.length
+    [@props.data[0].date, @props.data[Math.round(dataLength / 2)].date, @props.data[dataLength - 1].date]
 
   dataMax: ->
     Math.max @dataValues()...
@@ -120,12 +128,22 @@ module?.exports = React.createClass
       style={zIndex: -1}
     />
 
+  xLabelTextAnchor: (i) ->
+    switch i
+      when 0 then 'start'
+      when (@xAxisLabels().length - 1) then 'end'
+      else 'middle'
+
+  xAxisLabel: (date, i) ->
+    <text x={((i / 2) * 100) + "%"} y={20} style={textAnchor: @xLabelTextAnchor(i)} fill="darkgrey" stroke-width={1}>{date}</text>
+
   render: ->
     coords = @coords()
     lines = @coordPairs().map(@line)
     circles = coords.map(@circle)
     yAxisLines = [1..@props.yLines].map(@yAxisLine)
     xAxisTicks = coords.map((c) -> c.x).map(@xAxisTick)
+    labels = @xAxisLabels().map(@xAxisLabel)
 
     <div className='line-graph'>
       <svg width="100%" height={@props.height}>
@@ -138,6 +156,7 @@ module?.exports = React.createClass
           <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
         </g>
       </svg>
+      <svg width="100%" height={20}><g>{labels}</g></svg>
+
       <HoverBox display={@state.circleHover.display} top={@state.circleHover.y} left={@state.circleHover.x} content={@state.circleHover.content}/>
     </div>
-
