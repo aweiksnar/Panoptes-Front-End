@@ -27,8 +27,7 @@ module?.exports = React.createClass
   xAxisLabels: ->
     # [first, middle, last] x-labels
     dataLength = @props.data.length
-    [@props.data[0][@props.x.key], @props.data[Math.round(dataLength / 2)][@props.x.key], @props.data[dataLength - 1][@props.x.key]
-    ]
+    [@props.data[0][@props.x.key], @props.data[Math.floor(dataLength / 2)][@props.x.key], @props.data[dataLength - 1][@props.x.key]]
 
   dataMax: ->
     Math.max @dataValues()...
@@ -36,11 +35,11 @@ module?.exports = React.createClass
   indexOf: (elem) ->
     (elem while elem = elem.previousSibling).length
 
-  itemPercentWidth: ->
-    ((1 / @props.data.length) * (100 - @props.gap)) - @props.gap
+  percentWidth: ->
+    (1 / @props.data.length) * 100
 
   xPercentPosition: (i) ->
-    (@itemPercentWidth() * i) + (@props.gap * (i + 1))
+    @percentWidth() * i + (@percentWidth() / 2)
 
   yPercentPosition: (val) ->
     # make sure all y values display as tall as the circle radius
@@ -49,7 +48,6 @@ module?.exports = React.createClass
 
   normalizedValues: ->
     max = @dataMax()
- 
     @dataValues().map (d) -> d / max
 
   coordNotUndefined: (c) ->
@@ -154,7 +152,7 @@ module?.exports = React.createClass
           <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
         </g>
       </svg>
-      <svg width="100%" height={20}><g>{labels}</g></svg>
+      <svg width="100%" height={25}><g>{labels}</g></svg>
 
       <HoverBox display={@state.circleHover.display} top={@state.circleHover.y} left={@state.circleHover.x} content={@state.circleHover.content}/>
     </div>
