@@ -101,5 +101,7 @@ module?.exports = React.createClass
 
       <LineGraph data={BAR_GRAPH.data} x={BAR_GRAPH.x} y={BAR_GRAPH.y}} pointRadius={10} gap={3} height={300} yLines={5}/>
 
+      <BarGraph data={PROJECT_CLASSIFICATIONS.data} x={PROJECT_CLASSIFICATIONS.x} y={PROJECT_CLASSIFICATIONS.y}} height={300} gap={1} color="black"/>
+  
       <FillChart data={PROJECT_CLASSIFICATIONS.data} rowSize={7} gap={4} itemDiameter={40}/>
     </div>
