@@ -13,10 +13,7 @@ module?.exports = React.createClass
     @props.data.length
 
   dataValues: ->
-    @props.data.map (d) -> d.value
-
-  dataLabels: ->
-    @props.data.map (d) -> d.label
+    @props.data.map (d) => d[@props.y.key]
 
   dataMax: ->
     Math.max @dataValues()...
@@ -35,7 +32,7 @@ module?.exports = React.createClass
     min = @dataMin()
     length = @dataLength()
 
-    @props.data.map (d) -> d.value / (max - min)
+    @props.data.map (d) => d[@props.y.key] / (max - min)
 
   activeItemData: ->
     @props.data[@state.activeItem]
@@ -60,7 +57,7 @@ module?.exports = React.createClass
     bars = @normalizedValues().map(@bar)
 
     <div className="bar-graph">
-      <p className="y-axis-label">{@props.labels.y}</p>
+      <p className="y-axis-label">{@props.y.label}</p>
 
       <svg width="100%" height={@props.height}>
         <g transform="scale(1,-1), translate(0, -#{@props.height})">
@@ -70,6 +67,6 @@ module?.exports = React.createClass
         </g>
       </svg>
 
-      <p className="x-axis-label">{@props.labels.x}</p>
+      <p className="x-axis-label">{@props.x.label}</p>
       <DataBox title="Bar Graph Data Box" activeItem={@activeItemData()} />
     </div>

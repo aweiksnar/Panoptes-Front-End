@@ -33,9 +33,6 @@ module?.exports = React.createClass
   dataMax: ->
     Math.max @dataValues()...
 
-  dataMin: ->
-    Math.min @dataValues()...
-
   indexOf: (elem) ->
     (elem while elem = elem.previousSibling).length
 
@@ -52,9 +49,8 @@ module?.exports = React.createClass
 
   normalizedValues: ->
     max = @dataMax()
-    min = @dataMin()
  
-    @dataValues().map (d) -> d / (max - min)
+    @dataValues().map (d) -> d / max
 
   coordNotUndefined: (c) ->
     c.x and c.y

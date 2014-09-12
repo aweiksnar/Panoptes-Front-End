@@ -50,18 +50,22 @@ PROJECT_CLASSIFICATIONS =
 PROJECT_CLASSIFICATION_COUNTS = PROJECT_CLASSIFICATIONS.data.map (p) -> p.classification_count
 
 BAR_GRAPH =
+  x:
+    key: 'label'
+    label: 'Number'
+  y:
+    key: 'value'
+    label: 'Users'
+
   data: [
     {label: "first", value: 3}
     {label: "second", value: 5}
     {label: "third", value: 8}
-    {label: "fourth", value: 6}
+    {label: "fourth", value: 3}
     {label: "fifth", value: 9}
     {label: "sixth", value: 13}
     {label: "seventh", value: 4}
   ]
-  labels:
-    x: "Time"
-    y: "Y-Axis"
 
 PROJECT_STATS_DATA =
   total_classifications: "26,127"
@@ -75,7 +79,6 @@ USER_STATS_DATA =
   classifications_today: "5"
   total_talk_comments: "71"
   talk_comments_today: "3"
-
 
 module?.exports = React.createClass
   displayName: 'Dashboard'
@@ -94,7 +97,9 @@ module?.exports = React.createClass
       <LineGraph data={PROJECT_CLASSIFICATIONS.data} x={PROJECT_CLASSIFICATIONS.x} y={PROJECT_CLASSIFICATIONS.y}} pointRadius={10} gap={3} height={300} yLines={5}/>
 
       <h2>Bar Graph</h2>
-      <BarGraph data={BAR_GRAPH.data} labels={BAR_GRAPH.labels} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
+      <BarGraph data={BAR_GRAPH.data} x={BAR_GRAPH.x} y={BAR_GRAPH.y} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
+
+      <LineGraph data={BAR_GRAPH.data} x={BAR_GRAPH.x} y={BAR_GRAPH.y}} pointRadius={10} gap={3} height={300} yLines={5}/>
 
       <FillChart data={PROJECT_CLASSIFICATIONS.data} rowSize={7} gap={4} itemDiameter={40}/>
     </div>
