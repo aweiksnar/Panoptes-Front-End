@@ -6,40 +6,48 @@ BarGraph = require '../components/bar-graph'
 LineGraph = require '../components/line-graph'
 StatsBox = require '../partials/stats-box'
 
-PROJECT_CLASSIFICATION_DATA = [
-  {classification_count: 5, date: "08/13/2014"}
-  {classification_count: 2, date: "08/14/2014"}
-  {classification_count: 8, date: "08/15/2014"}
-  {classification_count: 4, date: "08/16/2014"}
-  {classification_count: 9, date: "08/17/2014"}
-  {classification_count: 5, date: "08/18/2014"}
-  {classification_count: 2, date: "08/19/2014"}
-  {classification_count: 8, date: "08/20/2014"}
-  {classification_count: 0, date: "08/21/2014"}
-  {classification_count: 9, date: "08/22/2014"}
-  {classification_count: 3, date: "08/23/2014"}
-  {classification_count: 2, date: "08/24/2014"}
-  {classification_count: 15, date: "08/25/2014"}
-  {classification_count: 15, date: "08/26/2014"}
-  {classification_count: 12, date: "08/27/2014"}
-  {classification_count: 20, date: "08/28/2014"}
-  {classification_count: 3, date: "08/29/2014"}
-  {classification_count: 5, date: "08/30/2014"}
-  {classification_count: 5, date: "08/31/2014"}
-  {classification_count: 7, date: "09/01/2014"}
-  {classification_count: 16, date: "09/02/2014"}
-  {classification_count: 18, date: "09/03/2014"}
-  {classification_count: 25, date: "09/04/2014"}
-  {classification_count: 18, date: "09/05/2014"}
-  {classification_count: 13, date: "09/06/2014"}
-  {classification_count: 13, date: "09/07/2014"}
-  {classification_count: 14, date: "09/08/2014"}
-  {classification_count: 17, date: "09/09/2014"}
-  {classification_count: 19, date: "09/10/2014"}
-  {classification_count: 5, date: "09/11/2014"}
-]
+PROJECT_CLASSIFICATIONS =
+  y:
+    key: 'classification_count'
+    label: 'Classifications'
+  x:
+    key: 'date'
+    label: 'Date'
 
-PROJECT_CLASSIFICATION_COUNTS = PROJECT_CLASSIFICATION_DATA.map (p) -> p.classification_count
+  data: [
+    {classification_count: 5, date: "08/13/2014"}
+    {classification_count: 2, date: "08/14/2014"}
+    {classification_count: 8, date: "08/15/2014"}
+    {classification_count: 4, date: "08/16/2014"}
+    {classification_count: 9, date: "08/17/2014"}
+    {classification_count: 5, date: "08/18/2014"}
+    {classification_count: 2, date: "08/19/2014"}
+    {classification_count: 8, date: "08/20/2014"}
+    {classification_count: 0, date: "08/21/2014"}
+    {classification_count: 9, date: "08/22/2014"}
+    {classification_count: 3, date: "08/23/2014"}
+    {classification_count: 2, date: "08/24/2014"}
+    {classification_count: 15, date: "08/25/2014"}
+    {classification_count: 15, date: "08/26/2014"}
+    {classification_count: 12, date: "08/27/2014"}
+    {classification_count: 20, date: "08/28/2014"}
+    {classification_count: 3, date: "08/29/2014"}
+    {classification_count: 5, date: "08/30/2014"}
+    {classification_count: 5, date: "08/31/2014"}
+    {classification_count: 7, date: "09/01/2014"}
+    {classification_count: 16, date: "09/02/2014"}
+    {classification_count: 18, date: "09/03/2014"}
+    {classification_count: 25, date: "09/04/2014"}
+    {classification_count: 18, date: "09/05/2014"}
+    {classification_count: 13, date: "09/06/2014"}
+    {classification_count: 13, date: "09/07/2014"}
+    {classification_count: 14, date: "09/08/2014"}
+    {classification_count: 17, date: "09/09/2014"}
+    {classification_count: 19, date: "09/10/2014"}
+    {classification_count: 5, date: "09/11/2014"}
+  ]
+
+PROJECT_CLASSIFICATION_COUNTS = PROJECT_CLASSIFICATIONS.data.map (p) -> p.classification_count
 
 BAR_GRAPH =
   data: [
@@ -83,10 +91,10 @@ module?.exports = React.createClass
       <StatsBox data={USER_STATS_DATA} title={"User Statistics"} />
 
       <h2>Line Graph</h2>
-      <LineGraph data={PROJECT_CLASSIFICATION_DATA} pointRadius={10} gap={3} height={300} yLines={5}/>
+      <LineGraph data={PROJECT_CLASSIFICATIONS.data} x={PROJECT_CLASSIFICATIONS.x} y={PROJECT_CLASSIFICATIONS.y}} pointRadius={10} gap={3} height={300} yLines={5}/>
 
       <h2>Bar Graph</h2>
       <BarGraph data={BAR_GRAPH.data} labels={BAR_GRAPH.labels} axisLabels={BAR_GRAPH.labels} height={300} gap={3} color="black"/>
 
-      <FillChart data={PROJECT_CLASSIFICATION_DATA} rowSize={7} gap={4} itemDiameter={40}/>
+      <FillChart data={PROJECT_CLASSIFICATIONS.data} rowSize={7} gap={4} itemDiameter={40}/>
     </div>

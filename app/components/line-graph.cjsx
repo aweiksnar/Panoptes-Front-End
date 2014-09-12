@@ -16,17 +16,19 @@ module?.exports = React.createClass
 
   componentDidMount: ->
     console.log "line graph mounted"
+    console.log "@props", @props
 
   getInitialState: ->
     circleHover: {x: 0, y: 0, display: "none"}
 
-  dataValues: ->                #TODO: make these data things generic
-    @props.data.map (d) -> d.classification_count
+  dataValues: ->
+    @props.data.map (d) => d[@props.y.key]
 
   xAxisLabels: ->
-    #first middle and last date
+    # [first, middle, last] x-labels
     dataLength = @props.data.length
-    [@props.data[0].date, @props.data[Math.round(dataLength / 2)].date, @props.data[dataLength - 1].date]
+    [@props.data[0][@props.x.key], @props.data[Math.round(dataLength / 2)][@props.x.key], @props.data[dataLength - 1][@props.x.key]
+    ]
 
   dataMax: ->
     Math.max @dataValues()...
@@ -91,9 +93,9 @@ module?.exports = React.createClass
     />
 
   onCircleHover: (e) ->
-   {classification_count} = @props.data[@indexOf(e.target)]
+   value = @props.data[@indexOf(e.target)][@props.y.key]
    offset = 5
-   @setState {circleHover: {x: e.clientX + offset, y: e.clientY + offset, content: "#{classification_count} Classifications"}}
+   @setState {circleHover: {x: e.clientX + offset, y: e.clientY + offset, content: "#{value} #{@props.y.label}"}}
 
   onCircleMouseout: (e) ->
     @setState {circleHover: {display: "none"}}
