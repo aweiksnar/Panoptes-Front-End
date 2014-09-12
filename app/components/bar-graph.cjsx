@@ -18,9 +18,6 @@ module?.exports = React.createClass
   dataMax: ->
     Math.max @dataValues()...
 
-  dataMin: ->
-    Math.min @dataValues()...
-
   itemPercentWidth: ->
     ((1 / @dataLength()) * (100 - @props.gap)) - @props.gap
 
@@ -29,10 +26,9 @@ module?.exports = React.createClass
 
   normalizedValues: ->
     max = @dataMax()
-    min = @dataMin()
     length = @dataLength()
 
-    @props.data.map (d) => d[@props.y.key] / (max - min)
+    @props.data.map (d) => d[@props.y.key] / max
 
   activeItemData: ->
     @props.data[@state.activeItem]
@@ -68,5 +64,5 @@ module?.exports = React.createClass
       </svg>
 
       <p className="x-axis-label">{@props.x.label}</p>
-      <DataBox title="Bar Graph Data Box" activeItem={@activeItemData()} />
+      <DataBox title="Bar Graph Data Box" activeItem={@activeItemData()} x={@props.x} y={@props.y} />
     </div>
