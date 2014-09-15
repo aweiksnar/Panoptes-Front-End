@@ -59,6 +59,7 @@ module?.exports = React.createClass
         <g transform="scale(1,-1), translate(0, -#{@props.height})">
           <line x1={0} y1={0} x2={0} y2={@props.height} stroke="black" stroke-width="1px" />
           <g>{bars}</g>
+
           <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
         </g>
       </svg>
@@ -66,3 +67,4 @@ module?.exports = React.createClass
       <p className="x-axis-label">{@props.x.label}</p>
       <DataBox title="Bar Graph Data Box" activeItem={@activeItemData()} x={@props.x} y={@props.y} />
     </div>
+
