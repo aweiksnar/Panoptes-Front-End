@@ -57,7 +57,6 @@ module?.exports = React.createClass
 
       <svg width="100%" height={@props.height}>
         <g transform="scale(1,-1), translate(0, -#{@props.height})">
-          <line x1={0} y1={0} x2={0} y2={@props.height} stroke="black" stroke-width="1px" />
           <g>{bars}</g>
 
           <line x1={0} y1={0} x2="100%" y2={0} stroke="black" stroke-width="1px"/>
