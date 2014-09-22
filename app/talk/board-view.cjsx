@@ -4,6 +4,7 @@ React = require 'react'
 Route = require '../lib/route'
 Link = require '../lib/link'
 PostListItem = require './post-list-item'
+Paginate = require '../components/paginate'
 
 FAKE_POSTS_DATA = [
   {
@@ -35,6 +36,42 @@ FAKE_POSTS_DATA = [
     author: "spam user"
     post_count: "63"
     participants: "43"
+  },
+  {
+    title: "I need some help guys"
+    author: "imposter"
+    post_count: "6"
+    participants: "41"
+  },
+  {
+    title: "I need some help guys"
+    author: "imposter"
+    post_count: "6"
+    participants: "41"
+  },
+  {
+    title: "I need some help guys"
+    author: "imposter"
+    post_count: "6"
+    participants: "41"
+  },
+  {
+    title: "I need some help guys"
+    author: "imposter"
+    post_count: "6"
+    participants: "41"
+  },
+  {
+    title: "I need some help guys"
+    author: "imposter"
+    post_count: "6"
+    participants: "41"
+  },
+  {
+    title: "I need some help guys"
+    author: "imposter"
+    post_count: "6"
+    participants: "41"
   }
 ]
 
@@ -50,5 +87,5 @@ module?.exports = React.createClass
       <Link href="/projects/#{@props.project.owner_name}/#{@props.project.name}/talk"><p><- link back to talk view</p></Link>
       <h1>Board View <input placeholder="Search" className="talk search" /></h1>
       {posts}
+      <Paginate coll={posts} pageCount={3} />
     </div>
-      
