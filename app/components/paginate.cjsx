@@ -45,9 +45,9 @@ module?.exports = React.createClass
 
     return
 
-  pageNum: (i) ->
-    <li onClick={=> @onPageClick(i)} className={if i is @state.activePage then "active" else ""}>
-      {i}
+  pageNum: (n) ->
+    <li onClick={=> @onPageClick(n)} className={if n is @state.activePage then "active" else ""}>
+      {n}
     </li>
 
   render: ->
