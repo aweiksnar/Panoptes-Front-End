@@ -81,11 +81,15 @@ module?.exports = React.createClass
   postListItem: (post) ->
     <PostListItem post={post} project={@props.project}/>
 
+  handlePagination: (currentPage, dataRange) ->
+    console.log "pagination data", currentPage, dataRange
+
   render: ->
     posts = FAKE_POSTS_DATA.map(@postListItem)
+
     <div className='board-view'>
       <Link href="/projects/#{@props.project.owner_name}/#{@props.project.name}/talk"><p><- link back to talk view</p></Link>
       <h1>Board View <input placeholder="Search" className="talk search" /></h1>
       {posts}
-      <Paginate coll={posts} pageCount={3} />
+      <Paginate coll={posts} perPage={4} onPageChange={@handlePagination}/>
     </div>
