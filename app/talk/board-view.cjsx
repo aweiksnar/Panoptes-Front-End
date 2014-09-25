@@ -78,18 +78,21 @@ FAKE_POSTS_DATA = [
 module?.exports = React.createClass
   displayName: 'BoardView'
 
+  getInitialState: ->
+    pages: [0...4]
+
   postListItem: (post) ->
     <PostListItem post={post} project={@props.project}/>
 
-  handlePagination: (currentPage, dataRange) ->
-    console.log "pagination data", currentPage, dataRange
+  handlePagination: (pageData) ->
+    @setState pages: pageData.range
 
   render: ->
-    posts = FAKE_POSTS_DATA.map(@postListItem)
+    posts = FAKE_POSTS_DATA[@state.pages[0]..@state.pages[@state.pages.length - 1]].map(@postListItem)
 
     <div className='board-view'>
       <Link href="/projects/#{@props.project.owner_name}/#{@props.project.name}/talk"><p><- link back to talk view</p></Link>
       <h1>Board View <input placeholder="Search" className="talk search" /></h1>
       {posts}
-      <Paginate coll={posts} perPage={4} onPageChange={@handlePagination}/>
+      <Paginate coll={FAKE_POSTS_DATA} perPage={4} onPageChange={@handlePagination}/>
     </div>
