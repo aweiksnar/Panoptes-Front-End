@@ -7,6 +7,9 @@ Link = require '../lib/link'
 Markdown = require '../components/markdown'
 ClassifyPage = require './classify'
 Dashboard = require './dashboard'
+TalkPage = require './talk'
+TalkBoardPage = require '../talk/board-view'
+TalkPostPage = require '../talk/post-view'
 LoadingIndicator = require '../components/loading-indicator'
 
 ProjectPage = React.createClass
@@ -102,9 +105,15 @@ ProjectPage = React.createClass
           </Route>
 
           <Route path="/projects/:owner/:name/talk" className="project-text-content content-container">
-            <div>
-              <p>Discussion boards this project</p>
-            </div>
+            <TalkPage project={@state.project} />
+          </Route>
+
+          <Route path="/projects/:owner/:name/talkboard" className="project-text-content content-container">
+            <TalkBoardPage project={@state.project}/>
+          </Route>
+
+          <Route path="/projects/:owner/:name/talkpost" className="project-text-content content-container">
+            <TalkPostPage project={@state.project} />
           </Route>
         </div>
 

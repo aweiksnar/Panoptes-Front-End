@@ -1,0 +1,58 @@
+// this will just be a shared class instead of extending
+// .talk-list-item, once the views/routes are properly nested
+
+.talk-list-item
+  background-color: rgba(175, 175, 175, 0.1)
+  margin: 10px 0
+  padding: 10px
+  border-radius: 5px
+  &:hover
+    background-color: rgba(175, 175, 175, 0.2)
+
+.comment-view
+  @extend .talk-list-item
+
+.board-list-item
+  @extend .talk-list-item
+  h1
+    font-size: 30px
+
+.post-list-item
+  @extend .talk-list-item
+  h1
+    font-size: 20px
+
+.talk
+  border: 2px solid rgba(175, 175, 175, 0.1)
+  font-size: 20px
+  line-height: 35px
+  border-radius: 5px
+  
+  &.search
+    float: right
+    max-width: 200px
+    width: 300px
+    padding: 0 10px
+
+  &.comment
+    width: 100%
+    border: 2px solid rgba(175, 175, 175, 0.1)
+    height: 30px
+    transition: height .5s
+    box-sizing: border-box;
+    &:focus
+      height: 200px;
+
+.post-view
+  form
+    overflow: auto
+
+  button
+    background-color: rgb(64, 184, 121)
+    padding: 10px
+    border-radius: 5px
+    border: none
+    color: #fff
+    float: right
+    font-size: 20px
+    width: 150px;

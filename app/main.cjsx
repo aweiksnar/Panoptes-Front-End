@@ -14,6 +14,8 @@ Settings = require './pages/settings'
 UserProfile = require './pages/user-profile'
 Build = require './pages/build'
 
+BoardView = require './talk/board-view'
+
 DemoRouteHandler = React.createClass
   render: ->
     <ul>
@@ -43,12 +45,12 @@ Main = React.createClass
   render: ->
     <div className="panoptes-main">
       <MainHeader currentLogin={@state.currentLogin} loggingIn={@state.loggingIn} />
-
       <div className="main-content">
         <Route path="/" handler={Home} />
         <Route path="/sign-in(/:form)" handler={SignIn} currentLogin={@state.currentLogin} loggingIn={@state.loggingIn} />
         <Route path="/projects(/:categories)" handler={Projects} />
         <Route path="/projects/:owner/:name(/:section)" handler={Project} />
+        <Route path="/projects/:owner/:name/:section/:board_name" handler={BoardView} />
         <Route path="/settings(/:section)" login={@state.currentLogin} loading={@state.loggingIn} handler={Settings} />
         <Route path="/users/:login(/:section)" handler={UserProfile} />
         <Route path="/build" handler={Build} />
