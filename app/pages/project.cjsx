@@ -2,8 +2,8 @@
 
 React = require 'react'
 projectsStore = require '../data/projects'
-ChildRouter = require 'react-child-router'
-{Link} = ChildRouter
+Route = require '../lib/route'
+Link = require '../lib/link'
 Markdown = require '../components/markdown'
 ClassifyPage = require './classify'
 Dashboard = require './dashboard'
@@ -56,19 +56,19 @@ ProjectPage = React.createClass
       <div className="background-cover"></div>
 
       <nav className="tabbed-content-tabs">
-        <Link href="#/projects/#{qualifiedProjectName}" className="home tabbed-content-tab">
+        <Link href="/projects/#{qualifiedProjectName}" root={true} className="home tabbed-content-tab">
           <h2><img src={@state.project?.avatar ? defaultImgSrc} className="project-avatar"/>{name}</h2>
         </Link>
-        <Link href="#/projects/#{qualifiedProjectName}/science" className="tabbed-content-tab">Science</Link>
-        <Link href="#/projects/#{qualifiedProjectName}/status" className="tabbed-content-tab">Status</Link>
-        <Link href="#/projects/#{qualifiedProjectName}/team" className="tabbed-content-tab">Team</Link>
-        <Link href="#/projects/#{qualifiedProjectName}/classify" className="classify tabbed-content-tab">Classify</Link>
-        <Link href="#/projects/#{qualifiedProjectName}/talk" className="tabbed-content-tab"><i className="fa fa-comments"></i></Link>
+        <Link href="/projects/#{qualifiedProjectName}/science" className="tabbed-content-tab">Science</Link>
+        <Link href="/projects/#{qualifiedProjectName}/status" className="tabbed-content-tab">Status</Link>
+        <Link href="/projects/#{qualifiedProjectName}/team" className="tabbed-content-tab">Team</Link>
+        <Link href="/projects/#{qualifiedProjectName}/classify" className="classify tabbed-content-tab">Classify</Link>
+        <Link href="/projects/#{qualifiedProjectName}/talk" className="tabbed-content-tab"><i className="fa fa-comments"></i></Link>
       </nav>
 
       {if @state.project?
-        <ChildRouter className="project-page-content">
-          <div hash="#/projects/:owner/:name" className="project-home-content">
+        <div className="project-page-content">
+          <Route path="/projects/:owner/:name" className="project-home-content">
             <div className="call-to-action-container content-container">
               <Markdown className="description">{@state.project.description}</Markdown>
               <div>
@@ -79,28 +79,34 @@ ProjectPage = React.createClass
             <Markdown className="introduction content-container">
               {@state.project.introduction}
             </Markdown>
-          </div>
+          </Route>
 
-          <Markdown hash="#/projects/:owner/:name/science" className="project-text-content content-container">
-            {@state.project.science_case}
-          </Markdown>
+          <Route path="/projects/:owner/:name/science" className="project-text-content content-container">
+            <Markdown>
+              {@state.project.science_case}
+            </Markdown>
+          </Route>
 
-          <div hash="#/projects/:owner/:name/status" className="project-text-content content-container">
+          <Route path="/projects/:owner/:name/status" className="project-text-content content-container">
             <Dashboard project={@state.project} />
-          </div>
+          </Route>
 
-          <div hash="#/projects/:owner/:name/team" className="project-text-content content-container">
-            <p>Who’s in charge of this project? What organizations are behind it?</p>
-          </div>
+          <Route path="/projects/:owner/:name/team" className="project-text-content content-container">
+            <div>
+              <p>Who’s in charge of this project? What organizations are behind it?</p>
+            </div>
+          </Route>
 
-          <div hash="#/projects/:owner/:name/classify" className="classify-content content-container">
+          <Route path="/projects/:owner/:name/classify" className="classify-content content-container">
             <ClassifyPage project={@state.project.id} />
-          </div>
+          </Route>
 
-          <div hash="#/projects/:owner/:name/talk" className="project-text-content content-container">
-            <p>Discussion boards this project</p>
-          </div>
-        </ChildRouter>
+          <Route path="/projects/:owner/:name/talk" className="project-text-content content-container">
+            <div>
+              <p>Discussion boards this project</p>
+            </div>
+          </Route>
+        </div>
 
       else
         <div className="content-container">
@@ -112,4 +118,4 @@ module.exports = React.createClass
   displayName: 'ProjectPageContainer'
 
   render: ->
-    <ProjectPage owner={@props.params.owner} project={@props.params.name} />
+    <ProjectPage owner={@props.route.params.owner} project={@props.route.params.name} />

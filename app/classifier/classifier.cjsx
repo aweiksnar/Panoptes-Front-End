@@ -1,88 +1,108 @@
 # @cjsx React.DOM
 
 React = require 'react'
-classificationsStore = require '../data/classifications'
+subjectsStore = require '../data/subjects'
 workflowsStore = require '../data/workflows'
 SubjectViewer = require './subject-viewer'
 TaskViewer = require './task-viewer'
 {dispatch} = require '../lib/dispatcher'
 
+# This module takes a classification object and loads its subject and workflow,
+# then passes everything into the SubjectViewer and TaskViewer.
+
 module.exports = React.createClass
   displayName: 'Classifier'
 
   getInitialState: ->
-    classification: null
+    subject: null
     workflow: null
+    selectedDrawingTool: null
 
-  componentWillMount: ->
+  componentDidMount: ->
     @loadClassification @props.classification
 
   componentWillUnmount: ->
-    @unloadClassification()
+    @unloadCurrentClassification()
 
   componentWillReceiveProps: (nextProps) ->
-    unless nextProps.classification is @state.classification?.id
-      @unloadClassification()
+    unless nextProps.classification is @props.classification
+      @unloadCurrentClassification()
       @loadClassification nextProps.classification
 
-  loadClassification: (id) ->
-    classificationsStore.get(id).then (classification) =>
-      classification.listen @handleClassificationChange
-      @setState {classification}
-      workflowsStore.get(classification.workflow).then (workflow) =>
-        @setState {workflow}
+  loadClassification: (classification) ->
+    classification.listen @handleClassificationChange
+    @setState subject: null, workflow: null, =>
+      @loadSubject classification.subject
+      @loadWorkflow classification.workflow
 
-  unloadClassification: ->
-    @state.classification?.stopListening @handleClassificationChange
+  unloadCurrentClassification: ->
+    @props.classification.stopListening @handleClassificationChange
+
+  loadSubject: (id) ->
+    subjectsStore.get(id).then (subject) =>
+      @setState {subject}
+
+  loadWorkflow: (id) ->
+    workflowsStore.get(id).then (workflow) =>
+      @setState {workflow}
 
   handleClassificationChange: ->
     # Kinda hacky, eh?
     @forceUpdate()
 
+  loadTask: (taskKey) ->
+    dispatch 'classification:annotate', @props.classification, taskKey
+    @setState selectedDrawingTool: @state.workflow.tasks[taskKey].tools?[0]
+
+  getAnnotation: ->
+    # Just a shortcut:
+    @props.classification.annotations[@props.classification.annotations.length - 1]
+
   render: ->
-    console?.log "Rendering #{@constructor.displayName}", '@props', @props, '@state', @state
+      annotation = @getAnnotation()
+      if annotation?
+        task = @state.workflow?.tasks[annotation.task]
+        currentTool = @state.selectedDrawingTool ? task?.tools?[0]
+        nextTaskKey = annotation.answer?.next ? task?.next
 
-    if @state.classification?
-      if @state.workflow?
-        annotation = @state.classification.annotations[@state.classification.annotations.length - 1]
-
-        if annotation?
-          nextTaskKey = annotation?.answer?.next ? @state.workflow.tasks[annotation?.task].next
-          nextTask = @state.workflow.tasks[nextTaskKey]
-        else
-          @loadTask @state.workflow.firstTask
+      canGoBack = @props.classification.annotations.length > 1
+      needsAnswer = task?.required and not annotation.answer?
+      canGoForward = nextTaskKey?
 
       <div className="project-classify-page">
         <div className="subject">
-          <SubjectViewer subject={@state.classification.subject} annotations={@state.classification.annotations} />
+          {if @state.subject?
+            <SubjectViewer subject={@state.subject} classification={@props.classification} selectedDrawingTool={currentTool} />
+          else
+            <p>Loading subject {@props.classification.subject}</p>}
         </div>
 
-        <div className="task">
-          <TaskViewer subject={@state.classification.subject} classification={@state.classification} onChange={@handleAnswer} />
+        <div className="classifier-task">
+          {if @state.workflow?
+            <TaskViewer task={task} annotation={annotation} selectedDrawingTool={currentTool} onChange={@handleAnswer} />
+          else
+            <p>Loading workflow {@props.classification.workflow}</p>}
 
           <div className="task-nav">
-            <button onClick={@previousTask} disabled={@state.classification.annotations.length < 2}><i className="fa fa-arrow-left"></i></button>
-            <button onClick={@loadTask.bind this, nextTaskKey} disabled={not nextTask?}><i className="fa fa-check"></i></button>
-            <button onClick={@finishClassification}disabled={nextTask?}><i className="fa fa-flag-checkered"></i></button>
+            <button className="backward" disabled={not canGoBack} onClick={@previousTask}><i className="fa fa-arrow-left"></i></button>
+            {if canGoForward
+              <button className="forward" disabled={needsAnswer} onClick={@loadTask.bind this, nextTaskKey}>Next <i className="fa fa-arrow-right"></i></button>
+            else
+              <button className="forward" disabled={needsAnswer} onClick={@finishClassification}>Done <i className="fa fa-check"></i></button>}
           </div>
         </div>
       </div>
 
-    else
-      <p>Loading classification {@props}</p>
-
   handleAnswer: (answer) ->
-    annotation = @state.classification.annotations[@state.classification.annotations.length - 1]
-    @state.classification.apply =>
-      annotation.answer = answer
-
-  loadTask: (taskKey) ->
-    @state.classification.apply =>
-      @state.classification.annotations.push task: taskKey
+    if answer? and 'type' of answer
+      @setState selectedDrawingTool: answer
+    else
+      dispatch 'classification:annotation:update', @props.classification, @getAnnotation(), answer
 
   previousTask: ->
-    @state.classification.annotations.pop()
-    @state.classification.emitChange()
+    dispatch 'classification:annotation:abort', @props.classification, @getAnnotation()
+    taskKey = @getAnnotation().task
+    @setState selectedDrawingTool: @state.workflow.tasks[taskKey].tools?[0]
 
   finishClassification: ->
-    @state.classification.save()
+    dispatch 'classification:save', @props.classification

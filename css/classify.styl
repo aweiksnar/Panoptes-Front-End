@@ -1,16 +1,52 @@
+.classify-content
+  display: flex
+
 .project-classify-page
   display: flex
+  flex: 1
 
   > .subject
     flex: 4
 
-  > .task
+  > .classifier-task
+    display: flex
     flex: 1
+    flex-direction: column
+    padding-left: 1vw
 
-    .answer
-      display: block
+  .task-viewer
+    flex: 1 0 auto
 
-  .circle-mark
-    fill: transparent
-    stroke: currentColor
-    stroke-width: 2
+  .task-nav
+    border-top: 1px solid
+    display: flex
+    flex: 0 0 auto
+    margin-top: 1em
+
+    button
+      @extends $reset-button
+      flex: 1 0 auto
+      letter-spacing: 0.05em
+      padding: 0.5em 1em
+      text-transform: uppercase
+
+      &:not(:first-child)
+        border-left: 1px solid
+
+      &:disabled
+        opacity: 0.4
+
+      &.backward
+        flex-grow: 0
+
+.subject-viewer-svg
+  background-stripes: transparent rgba(gray, 0.3) 20px
+  height: 100%
+  max-height: 95vh
+  width: 100%
+
+  &[data-tool]
+    cursor: crosshair
+
+@require "./task-viewer"
+@require "./drawing-tool"

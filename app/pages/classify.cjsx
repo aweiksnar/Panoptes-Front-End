@@ -1,16 +1,14 @@
 # @cjsx React.DOM
 
 React = require 'react'
-subjectsStore = require '../data/subjects'
 classificationsStore = require '../data/classifications'
+{dispatch} = require '../lib/dispatcher'
 Classifier = require '../classifier/classifier'
 LoadingIndicator = require '../components/loading-indicator'
 
-# Map a project ID to a classification ID
-classificationsInProgress = window.classificationsInProgress = {}
-
-# TODO: Think about making `classificationsInProgress` a store,
-# then having this component just listen for changes.
+# This module just takes a project ID
+# and recalls or creates a local in-progress classification for it.
+# The Classifier does all the hard work from there.
 
 module.exports = React.createClass
   displayName: 'ClassifyPage'
@@ -18,29 +16,32 @@ module.exports = React.createClass
   getInitialState: ->
     classification: null
 
-  componentWillMount: ->
+  componentDidMount: ->
+    classificationsStore.listen @handleClassificationsChange
     @loadClassificationFor @props.project
 
+  componentWillUnmount: ->
+    classificationsStore.stopListening @handleClassificationsChange
+
   componentWillReceiveProps: (nextProps) ->
-    unless classificationsInProgress[nextProps.project] is @state.classification
+    unless nextProps.project is @props.project
       @loadClassificationFor nextProps.project
 
-  loadClassificationFor: (project) ->
-    classification = classificationsInProgress[project]
-    classification ?= subjectsStore.fetch({project}).then ([subject]) ->
-      classificationsInProgress[project] ?= classificationsStore.create
-        subject: subject.id
-        workflow: subject.workflow
-      classificationsInProgress[project]
+  handleClassificationsChange: ->
+    @loadClassificationFor @props.project
 
-    Promise.all([classification]).then ([classification]) =>
-      @setState {classification}
+  loadClassificationFor: (project) ->
+    classification = classificationsStore.inProgress[project]
+    if classification?
+      if classification instanceof Promise
+        @setState classification: null
+      else
+        @setState {classification}
+    else
+      dispatch 'classification:create', project
 
   render: ->
-    console.log "Rendering #{@constructor.displayName}", {@props}, {@state}
-
     if @state.classification?
-      <Classifier classification={@state.classification.id} />
-
+      <Classifier classification={@state.classification} />
     else
       <p>Loading classification for project <code>{@props.project}</code></p>

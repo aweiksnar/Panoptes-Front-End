@@ -1,36 +1,18 @@
 Store = require './store'
 {dispatch} = require '../lib/dispatcher'
 
-EXAMPLE_LOGIN =
-  id: 'DEV_USER'
-  login: 'dev'
-  display_name: 'dev'
-  password: 'dev'
-  email: 'dev-user@zooniverse.org'
-  wants_betas: true
-  can_survey: false
-  avatar: 'https://pbs.twimg.com/profile_images/420634335964692480/aXU3vnUq.jpeg'
-  real_name: 'Mr. Dev User'
-  location: 'Dev City'
-  public_email: 'dev-user+spam@zooniverse.org'
-  personal_url: 'http://www.zooniverse.org/'
-  twitter: 'zoonidev'
-  pinterest: 'devdevdev'
-  preferences: {}
-  unseen_events: 4
+EXAMPLE_LOGIN = require('./users').examples[0]
 
 loginStore = new Store
-  attempts: {}
-  loading: true
+  loading: false
   current: null
-  errors: {}
 
-  'current-user:check': ->
+  check: ->
     @loading = true
     @emitChange()
 
     checkRequest = new Promise (resolve, reject) ->
-      console?.log 'GET /tokens&token=(RANDOM)'
+      # console?.log 'GET /tokens&token=(RANDOM)'
       if Math.random() > 0.5
         currentLogin = EXAMPLE_LOGIN
       setTimeout resolve.bind(null, currentLogin), 1000
@@ -38,12 +20,12 @@ loginStore = new Store
     checkRequest.then (user) =>
       @loading = false
       @current = user
+      @emitChange()
 
-  'current-user:sign-in': (login, password, id) ->
-    @attempts[id] =
-      loading: true
-      errors: {}
-
+  signIn: (login, password) ->
+    console.log 'Sign in started', {login}, {password}
+    console.log 'Set loginStore loading'
+    @loading = true
     @emitChange()
 
     console?.log "GET /tokens?login=#{login}&password=#{password}"
@@ -53,17 +35,17 @@ loginStore = new Store
       else
         errors = password: 'BAD_PASSWORD'
 
+      console.log 'Will resolve with', {user}, {errors}
       setTimeout resolve.bind(null, {user, errors}), 1000
 
     loginRequest.then ({user, errors}) =>
-      @attempts[id].loading = false
+      console.log 'Resolved with', {user}, {errors}
+      console.log 'loginStore no longer loading'
+      @loading = false
       @current = user
+      @emitChange()
 
-      if user?
-        dispatch 'current-user:sign-in:success', user, id
-
-      if errors?
-        @attempts[id].errors = errors
+    loginRequest
 
   'current-user:sign-out': ->
     console?.log 'DELETE /tokens/(TOKEN_ID)'

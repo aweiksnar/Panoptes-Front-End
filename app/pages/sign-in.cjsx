@@ -1,7 +1,8 @@
 # @cjsx React.DOM
 
 React = require 'react'
-ChildRouter = {Link} = require 'react-child-router'
+Link = require '../lib/link'
+Route = require '../lib/route'
 SignInForm = require '../partials/sign-in-form'
 RegisterForm = require '../partials/register-form'
 Translator = require 'react-translator'
@@ -24,20 +25,20 @@ module.exports = React.createClass
       <Translator tag="p">signIn.whyHaveAccount</Translator>
 
       <div className="columns-container">
-        <ChildRouter className="tabbed-content column" data-side="top">
+        <div className="tabbed-content column" data-side="top">
           <nav className="tabbed-content-tabs">
-            <Link href="#/sign-in" className="tabbed-content-tab">Sign in</Link>
-            <Link href="#/sign-in/register" className="tabbed-content-tab">Register</Link>
+            <Link href="/sign-in" root={true} className="tabbed-content-tab">Sign in</Link>
+            <Link href="/sign-in/register" className="tabbed-content-tab">Register</Link>
           </nav>
 
-          <div hash="#/sign-in" className="content-container">
-            <SignInForm />
-          </div>
+          <Route path="/sign-in" className="content-container">
+            <SignInForm currentLogin={@props.currentLogin} loggingIn={@props.loggingIn} />
+          </Route>
 
-          <div hash="#/sign-in/register" className="content-container">
-            <RegisterForm />
-          </div>
-        </ChildRouter>
+          <Route path="/sign-in/register" className="content-container">
+            <RegisterForm currentLogin={@props.currentLogin} loggingIn={@props.loggingIn} />
+          </Route>
+        </div>
 
         <hr />
 
