@@ -8,27 +8,22 @@ FAKE_COMMENTS = [
   {
     author: "alvin"
     message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-    nest: 0
   },
   {
     author: "theodore"
     message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text."
-    nest: 1
   },
   {
     author: "pig"
     message: "haha!!!!"
-    nest: 2
   },
   {
     author: "cow"
     message: "Lorem Ipsum is  galley of type and scrambled it to make a type specimen book."
-    nest: 0
   },
   {
     author: "moose"
     message: "I'm a moose'"
-    nest: 1
   }  
 ]
 

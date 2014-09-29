@@ -6,7 +6,7 @@ module?.exports = React.createClass
   displayName: 'CommentView'
 
   render: ->
-    <div className='comment-view' style={marginLeft: @props.data.nest * 50}>
+    <div className='comment-view'>
       <p>by: <strong>{@props.data.author}</strong></p>
       <p>{@props.data.message}</p>
       <p>reply</p>
