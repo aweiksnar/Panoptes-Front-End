@@ -16,13 +16,7 @@ Build = require './pages/build'
 
 BoardView = require './talk/board-view'
 
-DemoRouteHandler = React.createClass
-  render: ->
-    <ul>
-      <li>Params: <code>{JSON.stringify @props.route.params}</code></li>
-      <li>Query: <code>{JSON.stringify @props.route.query}</code></li>
-      <li>Hash: <code>{JSON.stringify @props.route.hash}</code></li>
-    </ul>
+NotificationViewer = require './components/notification-viewer'
 
 Main = React.createClass
   displayName: 'Main'
@@ -57,6 +51,8 @@ Main = React.createClass
       </div>
 
       <MainFooter />
+
+      <NotificationViewer event="notify" />
     </div>
 
 mainContainer = document.createElement 'div'
