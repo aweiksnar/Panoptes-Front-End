@@ -7,12 +7,6 @@ ProjectTalkBoard = require './project-talk-board'
 ProjectTalkBoardList = require './project-talk-board-list'
 ProjectTalkThread = require './project-talk-thread'
 
-boards = [
-  {name: "General"}
-  {name: "Science"}
-  {name: "Help"}
-]
-
 ProjectTalk = React.createClass
   displayName: 'ProjectTalk'
 
