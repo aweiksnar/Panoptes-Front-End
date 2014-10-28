@@ -3,27 +3,6 @@
 React = require 'react'
 Link = require '../lib/link'
 
-TALK_BOARDS =
-  general:
-    posts: [
-      {id: 1, name: "General Post"}
-      {id: 2, name: "Another General Post"}
-      {id: 3, name: "MORE......."}
-      ]
-  science:
-    posts: [
-      {id: 4, name: "Science Post"}
-      {id: 6, name: "Another Science Post"}
-      {id: 9, name: "MORE......."}
-      ]
-
-  help:
-    posts: [
-      {id: 10, name: "HALP!!"}
-      {id: 11, name: "Another Help Post"}
-      {id: 12, name: "MORE......."}
-      ]
-
 module?.exports = React.createClass
   displayName: "ProjectTalkBoard"
 
@@ -37,9 +16,15 @@ module?.exports = React.createClass
   post: (data, i) ->
     <Link key={i} href={@postLink(data.id)}>{data.name}</Link>
 
-  render: ->
+  posts: ->
     boardName = @props.route.params.board_name
-    posts = TALK_BOARDS[boardName.toLowerCase()].posts.map(@post)
+    if @props.boards
+      @props.boards.filter((b) -> b.name is boardName)[0].posts.map(@post)
+    else
+      "loading posts"
+
+  render: ->
+    posts = @posts()
 
     <div>
       <h1>{@props.route.params.board_name} Board</h1>

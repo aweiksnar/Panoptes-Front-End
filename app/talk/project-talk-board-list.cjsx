@@ -5,25 +5,8 @@ Route = require '../lib/route'
 Link = require '../lib/link'
 talkBoards = require '../data/talkBoards'
 
-boards = [
-  {name: "General"}
-  {name: "Science"}
-  {name: "Help"}
-]
-
 module?.exports = React.createClass
   displayName: 'ProjectTalkBoardList'
-
-  getInitialState: ->
-    boards: null
-
-  componentWillMount: ->
-    @fetchBoards()
-
-  fetchBoards: (q) ->
-    talkBoards.fetch(q).then (talkBoards) =>
-      @setState boards: talkBoards
-      console.log "@state", @state
 
   boardLinkHref: (boardName) ->
     {owner, name} = @props.route.params
@@ -33,10 +16,9 @@ module?.exports = React.createClass
     <Link key={i} href={@boardLinkHref(board.name)}>{board.name}</Link>
 
   render: ->
-    boardLinks = @state.boards.map(@linkToBoard) if @state.boards
+    boardLinks = @props.boards.map(@linkToBoard) if @props.boards
 
     <div>
       <h1>{@props.project} Talk Boards</h1>
       {boardLinks}
-
     </div>
