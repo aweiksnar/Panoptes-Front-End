@@ -7,10 +7,9 @@ module?.exports = React.createClass
   displayName: "ProjectTalkThread"
 
   comment: (c, i) ->
-    <div key={i}>
+    <div key={i} className="talk-item">
       <strong>{c.user} - {c.date}</strong>
       <p>{c.content}</p>
-      <hr />
     </div>
 
   post: ->
@@ -27,4 +26,3 @@ module?.exports = React.createClass
       <img src={post.location} />
       {post.comments.map(@comment) if @props.boards}
     </div>
-
