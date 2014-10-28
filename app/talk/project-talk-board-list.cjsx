@@ -33,7 +33,7 @@ module?.exports = React.createClass
     <Link key={i} href={@boardLinkHref(board.name)}>{board.name}</Link>
 
   render: ->
-    {boardLinks = @state.boards.map(@linkToBoard) if @state.boards}
+    boardLinks = @state.boards.map(@linkToBoard) if @state.boards
 
     <div>
       <h1>{@props.project} Talk Boards</h1>
