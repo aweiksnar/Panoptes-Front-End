@@ -23,7 +23,7 @@ ProjectTalk = React.createClass
       console.log "@state", @state
 
   render: ->
-    <div className="content-container talk">
+    <div className="content-container talk project-text-content">
       <Route path="/projects/:owner/:name/talk" handler={ProjectTalkBoardList} boards={@state.boards}/>
       <Route path="/projects/:owner/:name/talk/:board_name" handler={ProjectTalkBoard} boards={@state.boards}/>
       <Route path="/projects/:owner/:name/talk/:board_name/:thread_id" handler={ProjectTalkThread} boards={@state.boards}/>

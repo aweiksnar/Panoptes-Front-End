@@ -2,6 +2,7 @@
 
 React = require 'react'
 Link = require '../lib/link'
+Loader = require '../components/loading-indicator'
 
 module?.exports = React.createClass
   displayName: "ProjectTalkBoard"
@@ -14,14 +15,17 @@ module?.exports = React.createClass
     '/projects/' + owner + '/' + name + '/talk/' + board_name + '/' + id
 
   post: (data, i) ->
-    <Link key={i} href={@postLink(data.id)}>{data.name}</Link>
+    <div key={i} className="talk-item">
+      <Link href={@postLink(data.id)}>{data.name}</Link>
+      <p>by: {data.user}</p>
+    </div>
 
   posts: ->
     boardName = @props.route.params.board_name
-    if @props.boards
+    if @props.boards # TODO: This'll be new query in prod
       @props.boards.filter((b) -> b.name is boardName)[0].posts.map(@post)
     else
-      "loading posts"
+      <Loader />
 
   render: ->
     posts = @posts()
