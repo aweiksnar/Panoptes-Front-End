@@ -23,7 +23,9 @@ module?.exports = React.createClass
   posts: ->
     boardName = @props.route.params.board_name
     if @props.boards # TODO: This'll be new query in prod
-      @props.boards.filter((b) -> b.name is boardName)[0].posts.map(@post)
+      @props.boards
+        .filter((board) -> board.name is boardName)[0]
+        .posts.map(@post)
     else
       <Loader />
 

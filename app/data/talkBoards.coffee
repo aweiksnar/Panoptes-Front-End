@@ -43,7 +43,7 @@ SCIENCE_BOARD =
     {
       id: 4,
       name: "Science Post"
-      user: "CelebrityUser"
+      user: "PostMaster General"
       location: "http://placehold.it/400X200"
       comments: DEV_COMMENTS
     }
@@ -90,7 +90,11 @@ HELP_BOARD =
     }
   ]
 
-
 module.exports = window.talkBoardsStore = new Store
   root: '/talk'
   examples: [GENERAL_BOARD, SCIENCE_BOARD, HELP_BOARD]
+
+  'talk-comment:submit': (data) ->
+    console.log "talk-comment:submit data", data
+    DEV_COMMENTS.push {user: "ME", content: data, date: (new Date).toString()}
+    @emitChange()
