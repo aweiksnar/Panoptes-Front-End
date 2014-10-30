@@ -2,6 +2,7 @@
 
 React = require 'react'
 Loader = require '../components/loading-indicator'
+MarkdownEditor = require '../components/markdown-editor'
 {dispatch} = require '../lib/dispatcher'
 talkBoardsStore = require '../data/talkBoards'
 
@@ -25,10 +26,10 @@ module?.exports = React.createClass
 
   onCommentSubmit: (e) ->
     e.preventDefault()
-    comment = @refs.comment.getDOMNode().value.trim()
+    comment = @refs.comment.state.value
 
     dispatch 'talk-comment:submit', comment
-    @refs.comment.getDOMNode().value = ''
+    @refs.comment.setState value: ""
     @forceUpdate()
     
   render: ->
@@ -38,7 +39,7 @@ module?.exports = React.createClass
       <h1>{post.name}</h1>
       <img src={post.location} />
       <form onSubmit={@onCommentSubmit}>
-        <textarea placeholder="Say something..." ref="comment" />
+        <MarkdownEditor placeholder="Say something..." rows="4" className="talk-comment" ref="comment" />
         <button type="submit">Sumbit Comment</button>
       </form>
       {post.comments.map(@comment) if @props.boards}
