@@ -40,7 +40,7 @@ module?.exports = React.createClass
       <img src={post.location} />
       <form onSubmit={@onCommentSubmit}>
         <MarkdownEditor placeholder="Say something..." rows="4" className="talk-comment" ref="comment" />
-        <button type="submit">Sumbit Comment</button>
+        <button type="submit">Submit Comment</button>
       </form>
       {post.comments.map(@comment) if @props.boards}
     </div>

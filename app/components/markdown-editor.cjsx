@@ -35,12 +35,14 @@ module.exports = React.createClass
     </div>
 
   handleChange: (e) ->
+    e.preventDefault()
     unless @props.value?
       @setState value: e.target.value
 
     @props.onChange? e
 
   handlePreviewToggle: (e) ->
+    e.preventDefault()
     @setState previewing: not @state.previewing
 
   handleHelpRequest: ->
