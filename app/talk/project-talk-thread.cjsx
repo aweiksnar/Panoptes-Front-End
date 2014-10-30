@@ -38,7 +38,8 @@ module?.exports = React.createClass
       <h1>{post.name}</h1>
       <img src={post.location} />
       <form onSubmit={@onCommentSubmit}>
-        <input placeholder="Say something..." ref="comment" />
+        <textarea placeholder="Say something..." ref="comment" />
+        <button type="submit">Sumbit Comment</button>
       </form>
       {post.comments.map(@comment) if @props.boards}
     </div>
