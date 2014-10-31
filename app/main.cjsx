@@ -1,6 +1,7 @@
 # @cjsx React.DOM
 
 React = require 'react'
+window.React = React
 loginStore = require './data/login'
 MainHeader = require './partials/main-header'
 Route = require './lib/route'
@@ -14,6 +15,7 @@ Settings = require './pages/settings'
 UserProfile = require './pages/user-profile'
 Build = require './pages/build'
 EditProject = require './pages/edit-project'
+MainTalk = require './talk/main-talk'
 
 NotificationViewer = require './components/notification-viewer'
 
@@ -48,6 +50,7 @@ Main = React.createClass
         <Route path="/users/:login(/:section)" handler={UserProfile} />
         <Route path="/build" handler={Build} />
         <Route path="/build/:project_name(/*etc)" handler={EditProject} />
+        <Route path="/talk" handler={MainTalk} />
       </div>
 
       <MainFooter />
@@ -60,7 +63,3 @@ mainContainer.id = 'panoptes-main-container'
 document.body.appendChild mainContainer
 
 React.renderComponent Main(null), mainContainer
-
-# For React DevTools Chrome plugin:
-unless process.env.NODE_ENV is 'production'
-  window.React = React

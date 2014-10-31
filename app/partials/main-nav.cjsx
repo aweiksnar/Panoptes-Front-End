@@ -8,6 +8,7 @@ Translator.setStrings
     home: 'Zooniverse'
     projects: 'Projects'
     about: 'About'
+    talk: 'Talk'
 
 module.exports = React.createClass
   displayName: 'MainNav'
@@ -21,4 +22,5 @@ module.exports = React.createClass
       </Link>
       <Link href="/projects" className="main-header-item"><Translator>nav.projects</Translator></Link>
       <Link href="/about" className="main-header-item"><Translator>nav.about</Translator></Link>
+      <Link href="/talk" className="main-header-item"><Translator>nav.talk</Translator></Link>
     </nav>
