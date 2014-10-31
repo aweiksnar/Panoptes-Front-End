@@ -16,6 +16,7 @@ UserProfile = require './pages/user-profile'
 Build = require './pages/build'
 EditProject = require './pages/edit-project'
 
+Paperclip = require './components/paperclip'
 NotificationViewer = require './components/notification-viewer'
 
 Main = React.createClass
@@ -50,6 +51,7 @@ Main = React.createClass
         <Route path="/build" handler={Build} />
         <Route path="/build/:project_name(/*etc)" handler={EditProject} />
       </div>
+      <Paperclip />
 
       <MainFooter />
 
